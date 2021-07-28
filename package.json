@@ -1,0 +1,10 @@
+{
+  "name": "meetify",
+  "version": "1.0.0",
+  "description": "\"Video streaming application to connect with random peoples\"",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sudipto Ghosh",
+  "license": "ISC"
+}
