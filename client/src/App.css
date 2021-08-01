@@ -1,38 +1,350 @@
-.App {
-  text-align: center;
+body, html {
+  margin: 0;
+  font-family: 'Libre Baskerville', serif;
+  height: 100%;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+a {
+  text-decoration: none;
+  margin: 5px;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+a:active, a:visited {
+  color: inherit;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.chat-wrapper {
   display: flex;
+  flex: 1;
+  flex-direction: row;
+  height: 100%;
+}
+.chat-section {
+  border: none;
+  background: #f5f0f1;
+  box-sizing: border-box;
+  padding-left: 0.5em;
+  display: flex;
+  flex: 1;
   flex-direction: column;
-  align-items: center;
+  margin-left: 5px;
+  margin-right: 8px;
+  -webkit-box-shadow: -2px 7px 19px -3px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -2px 7px 19px -3px rgba(0, 0, 0, 0.75);
+  box-shadow: -2px 7px 19px -3px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 2px 7px 28px -9px rgba(0, 0, 0, 0.75);
+}
+div#app {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+}
+.chat-section ul {
+  overflow-y: auto;
+  flex: 1;
+  margin-bottom: 0;
+  padding-left: 0.5em;
+}
+.chat-section ul li {
+  text-decoration: none;
+  list-style-type: none;
+}
+.chat-section ul li + li {
+  margin-top: 10px;
+  float: left;
+  clear: left;
+}
+.chat-section textarea {
+  resize: none;
+  padding: 7px;
+  padding-left: 20px;
+  border: none;
+  border-top: solid 1px grey;
+  font-size: 1.3em;
+  font-family: 'Roboto', sans-serif;
+  color: #adadad;
+  margin-left: -8px;
+  -webkit-box-shadow: 5px -13px 72px -28px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 5px -13px 72px -28px rgba(0, 0, 0, 0.75);
+  box-shadow: 5px -13px 72px -28px rgba(0, 0, 0, 0.75);
+}
+.chat-section textarea:focus {
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.video-section {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  text-align: center;
+  max-width: 650px;
+}
+.videos {
+  flex: 1;
+  display: flex;
+  max-width: 650px;
+  flex-direction: column;
+  align-content: stretch;
+}
+.chat-navbar {
+  box-sizing: border-box;
+  padding-top: 1em;
+  display: flex;
+  height: 20px;
+  flex: 1;
+  position: absolute;
+  right: 0;
+}
+.orange, .blue {
+  margin-top: 5px;
+}
+.user-text {
+  float: left;
+  clear: left;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 1.4em;
+  min-width: 120px;
+  padding: 5px;
+}
+.orange .user-text {
+  border-right: solid 4px #e56e5b;
+}
+.blue .user-text {
+  border-right: solid 4px #0075fe;
+}
+.user-text:first-letter {
+  text-transform: uppercase;
+}
+.body-text {
+  float: left;
+  color: #989898;
+  margin-top: 7px;
+  margin-left: 10px;
+}
+.blue {
+  color: #0075fe;
+}
+.orange {
+  color: #e56e5b;
+}
+.localCanvas, .remoteCanvas {
+  background-color: black;
+  margin-left: 5px;
+  margin-right: 5px;
+  -webkit-box-shadow: 9px 5px 17px -6px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 9px 5px 17px -6px rgba(0, 0, 0, 0.75);
+  box-shadow: 9px 5px 17px -6px rgba(0, 0, 0, 0.75);
+  height: 50%;
+}
+.localCanvas {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+canvas.remoteCanvas {
+  margin-top: 5px;
+}
+.auth-container {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  flex-direction: column;
+  background: #004ff9;
+ /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(to right, #fff94c, #004ff9);
+ /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(to right, #fff94c, #004ff9);
+ /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(to right, #fff94c, #004ff9);
+ /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, #fff94c, #004ff9);
+ /* Standard syntax */
+  background-size: cover;
+}
+.loginForm, .registerForm {
+  width: 500px;
+  height: 600px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  top: 130px;
+  left: 0;
+  right: 0;
+}
+.loginWrap {
+  width: 500px;
+  float: left;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.75);
+  -webkit-box-shadow: 4px 3px 14px -5px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 4px 3px 14px -5px rgba(0, 0, 0, 0.75);
+  box-shadow: 4px 3px 14px -5px rgba(0, 0, 0, 0.75);
+}
+.bodyLogin {
+  overflow: hidden;
+  height: 100%;
+}
+.bg_image {
+  height: 1000px;
+  width: 100%;
+}
+h1 {
+  font-family: 'Roboto', sans-serif;
+  color: #87909c;
+  font-weight: bolder;
+  text-align: center;
+  font-size: 1.5em;
+  margin-top: 20px;
+}
+img.header_image {
+  width: 500px;
+}
+img.title_image {
+  width: 200px;
+  margin-left: auto;
+  display: block;
+  margin-right: auto;
+  margin-top: -90px;
+}
+label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #87909c;
+  float: left;
+  clear: both;
+  font-family: 'Roboto', sans-serif;
+  margin-left: 30px;
+  margin-top: 15px;
+}
+input[type="text"], input[type="password"] {
+  float: left;
+  margin-top: 15px;
+  clear: both;
+  margin-left: 30px;
+  font-size: 1.3em;
+  width: 80%;
+  outline: none;
+  border: none;
+  padding: 10px;
+  padding-left: 10px;
+}
+.login_btn, .register_btn {
+  float: left;
+  clear: left;
+  font-family: 'Roboto', sans-serif;
+  background: #7289da;
+  border: solid 1px #7289da;
+  width: 84%;
+  margin-left: 30px;
+  margin-top: 50px;
+  padding: 20px;
+  border-radius: 5px;
+  font-size: 1em;
   color: white;
+  cursor: pointer;
 }
-
-.App-link {
-  color: #61dafb;
+.registerLinkWrap, .loginLinkWrap {
+  float: left;
+  clear: left;
+  margin-left: 30px;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+a.register_link, a.login_link {
+  float: left;
+  margin-top: 11px;
+  font-size: 13px;
+  color: black;
+  font-family: 'Roboto', sans-serif;
+}
+a.register_link:hover, a.login_link:hover {
+  text-decoration: underline;
+}
+p.register_sentence, p.login_sentence {
+  clear: left;
+  float: left;
+  font-size: 12px;
+  color: #3e4956;
+  font-family: 'Roboto', sans-serif;
+}
+.errUsername, .errPassword, .errRegister {
+  float: left;
+  margin-left: 30px;
+  margin-top: 3px;
+  color: red;
+  font-size: 0.8em;
+  font-family: 'Roboto', sans-serif;
+}
+div#chatcon {
+  height: 100%;
+}
+.reg_success {
+  position: absolute;
+  background: #f2fae3;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  font-family: 'Roboto', sans-serif;
+  color: #94b639;
+  border-bottom: solid 3px #94b639;
+}
+.reg_neutral {
+  display: none;
+}
+.connect {
+  background: #7bce76;
+  border: solid 1px #7bce76;
+  color: white;
+  outline: none;
+  padding: 5px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+  float: right;
+  margin-right: 20px;
+}
+.disconnect {
+  background: #ed4450;
+  border: solid 1px #ed4450;
+  color: white;
+  outline: none;
+  padding: 5px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+  float: right;
+  margin-right: 20px;
+}
+.logoutBtn {
+  border: solid 1px #84b3ce;
+  color: #84b3ce !important;
+  background: white;
+  padding: 5px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 5px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  padding-left: 10px;
+  padding-right: 10px;
+  float: left;
+  margin-left: 20px;
+}
+ul {
+  font-family: 'Roboto', sans-serif;
 }
