@@ -180,7 +180,7 @@ canvas.remoteCanvas {
 .loginWrap {
   width: 500px;
   float: left;
-  height: 100%;
+  /* height: 100%; */
   background: rgba(255, 255, 255, 0.75);
   -webkit-box-shadow: 4px 3px 14px -5px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 4px 3px 14px -5px rgba(0, 0, 0, 0.75);
