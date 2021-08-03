@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { browserHistory , Link } from 'react-router'
+import { createBrowserHistory } from 'history';
 import { login , connectSocket, storeLocally, extractStorage } from '../actions'
 import Login from '../components/loginForm'
 import Register from '../components/registerForm'
+import io from 'socket.io-client';
+const history = createBrowserHistory();
 
 class Home extends Component {
     constructor(props) {
@@ -33,42 +35,42 @@ class Home extends Component {
 		}
     }
 
-    componentDidMount() {
-        //get user's token and username from local storage, this action is done through redux
-        const storage = this.props.extractStorage();
+    // componentDidMount() {
+    //     //get user's token and username from local storage, this action is done through redux
+    //     const storage = this.props.extractStorage();
     
-        //if user info is already stored in local storage
-        if (storage !== null) {
-            //token is the encrypted JWT 
-            var token = storage.received.token;
-            //decode the user's JWT to check if it is valid
-            fetch('http://d1cc1058c83e.ngrok.io/api/user/decode', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    token: token      
-                })
-            })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                //if user is authenticated successfully, re-route to video chat page,
-                //this allows the user to skip the login page
-                if (responseJson.auth == true) {
-                    //redux will store the username
-                    this.props.login(storage.received.username);
-                    //re-route to video chat page
-                    browserHistory.push('/chat');
-                }
-            })
-            //error is thrown if POST request fails
-            .catch(function(error) {
-                console.log("request failed");
-            })
-        }
-    }
+    //     //if user info is already stored in local storage
+    //     if (storage !== null) {
+    //         //token is the encrypted JWT 
+    //         var token = storage.received.token;
+    //         //decode the user's JWT to check if it is valid
+    //         fetch('https://b237e93be722.ngrok.io/api/user/decode', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Accept': 'application/json',
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({
+    //                 token: token      
+    //             })
+    //         })
+    //         .then((response) => response.json())
+    //         .then((responseJson) => {
+    //             //if user is authenticated successfully, re-route to video chat page,
+    //             //this allows the user to skip the login page
+    //             if (responseJson.auth == true) {
+    //                 //redux will store the username
+    //                 this.props.login(storage.received.username);
+    //                 //re-route to video chat page
+    //                 history.push('/chat');
+    //             }
+    //         })
+    //         //error is thrown if POST request fails
+    //         .catch(function(error) {
+    //             console.log("request failed");
+    //         })
+    //     }
+    // }
 
     /*--------STORES REGISTER USERNAME IN STATE----------*/
 	handleUsernameChangeRegister(e) {
@@ -98,7 +100,7 @@ class Home extends Component {
     /*-------------HANDLE USER REGISTRATION------------*/
     handleRegister(){
         //pass user credentials for registration
-        fetch('http://d1cc1058c83e.ngrok.io/api/user/register', {
+        fetch('https://b237e93be722.ngrok.io/api/user/register', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -136,7 +138,7 @@ class Home extends Component {
     /*--------HANDLE USER LOGIN---------*/
     handleLogin(){
         //pass user credentials for login
-        fetch('http://d1cc1058c83e.ngrok.io/api/user/login', {
+        fetch('https://b237e93be722.ngrok.io/api/user/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -169,7 +171,7 @@ class Home extends Component {
                 //store the encrypted password and usermail in local storage, this is done through redux
                 this.props.storeLocally(responseJson.token, responseJson.usermail);
                 //redirect the user to video chat page after login
-                browserHistory.push('/chat');
+                history.push('/chat');
             }
         })
         //error is thrown if POST request fails

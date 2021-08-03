@@ -13,9 +13,9 @@ class ChatBox extends Component {
         }
     }
 
-    componentDidMount() {
-        var self = this;
-    }
+    // componentDidMount() {
+    //     var self = this;
+    // }
 
     /*-----SAVES TEXT AS IT IS TYPED-----*/
     handleTextAreaChange(evt) {

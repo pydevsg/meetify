@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { browserHistory, Link } from 'react-router'
+import { Link } from 'react-router-dom'
+import Peer from 'peerjs';
 
 import { addP2pConnection, getPeerMessage , clearPeerMessage, removeP2pConnection, logout} from '../actions'
 
@@ -43,8 +44,8 @@ class Chat extends Component {
 			});
 
 			//destroy canvas loops
-			clearInterval(self.localCanvasLoop);
-			clearInterval(self.remoteCanvasLoop);
+			clearInterval(window.self.localCanvasLoop);
+			clearInterval(window.self.remoteCanvasLoop);
 		}
 	}
 
@@ -137,6 +138,7 @@ class Chat extends Component {
 			var call = this.peer.call(conn.peer,this.localStream);
 		});
 
+		
 		//peer is answering the call of the remote peer
 		this.peer.on('call', call =>{
 			//answers call and provides local video stream

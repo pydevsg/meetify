@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import PropTypes from 'prop-types';
 export default class ChatMessage extends Component{
 	constructor(){
         super();
@@ -8,7 +8,7 @@ export default class ChatMessage extends Component{
 
 	componentDidMount() {
 		//if the current user is sending the message
-		if (this.props.username == this.props.sender) {
+		if (this.props.username === this.props.sender) {
 			//message will be orange
 			this.setState({textColor:"orange"});
 		}
@@ -32,6 +32,6 @@ export default class ChatMessage extends Component{
 
 //ensures that the sender username and message are in string format
 ChatMessage.propTypes = {
-    sender: React.PropTypes.string.isRequired,
-    message: React.PropTypes.string.isRequired
+    sender: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired
 }
