@@ -20,6 +20,8 @@ Meetify is an online chat + video streaming application to talk with anonymous u
 - [ExpressJS]() : Routing & middleware framework
 - MongoDB ( [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) ) : For database management system
 
+- Ngrok[https://ngrok.com/] : For real-time use of local servers to the Internet
+
 ## Video Calling:
 This project doesn't use any external plugins for video calling. Instead, it uses APIs provided by WebRTC standard.
  - A STUN server is used to get public IP address
