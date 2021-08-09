@@ -4,10 +4,18 @@ Meetify is an online chat + video streaming application to talk with anonymous u
 ## Run Locally
 
 ### Frontend:
-`cd server && npm start`
+`cd server `
+
+`npm i`
+
+` npm start`
 
 ### Backend:
-`cd client && npm start`
+` cd client ` 
+
+` npm i `
+
+` npm start `
 
 ## Tech Stacks:
 
