@@ -91,7 +91,7 @@ class Home extends Component {
     handlePasswordChangeLogin(e) {
         this.setState({password_login: e.target.value});
     }
-
+    
     /*--------STORES LOGIN USERNAME IN STATE----------*/
     handleUsermailChangeLogin(e) {
         this.setState({email_login: e.target.value});
@@ -100,7 +100,7 @@ class Home extends Component {
     /*-------------HANDLE USER REGISTRATION------------*/
     handleRegister(){
         //pass user credentials for registration
-        fetch('https://b237e93be722.ngrok.io/api/user/register', {
+        fetch('https://fcb401ac0711.ngrok.io/api/user/register', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -138,7 +138,7 @@ class Home extends Component {
     /*--------HANDLE USER LOGIN---------*/
     handleLogin(){
         //pass user credentials for login
-        fetch('https://b237e93be722.ngrok.io/api/user/login', {
+        fetch('https://fcb401ac0711.ngrok.io/api/user/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

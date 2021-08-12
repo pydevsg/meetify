@@ -54,26 +54,26 @@ router.post('/login',async(req,res)=>{
 });
 
 /*-------DECODE USER TOKEN--------*/
-router.post('/decode',async(req, res)=> {
-    //encrypted JWT
-    var token = req.body.token;
-    //if encrypted JWT is not null
-    if (token) {
-        //decode the encrypted JWT using the JWT secret 
-          try {
-            var decoded = jwt.decode(token, app.get(process.env.TOKEN_SECRET));
-            //if successful send a success message to the front-end
-            res.json({
-                auth: true
-            })
-        //encrypted JWT cannot be decrypted
-          } catch (err) {
-            console.log(err);
-          }
-      //encrypted JWT is null
-    } else {
-          console.log("token does not exist");
-    }
-});
+// router.post('/decode',async(req, res)=> {
+//     //encrypted JWT
+//     var token = req.body.token;
+//     //if encrypted JWT is not null
+//     if (token) {
+//         //decode the encrypted JWT using the JWT secret 
+//           try {
+//             var decoded = jwt.decode(token, app.get(process.env.TOKEN_SECRET));
+//             //if successful send a success message to the front-end
+//             res.json({
+//                 auth: true
+//             })
+//         //encrypted JWT cannot be decrypted
+//           } catch (err) {
+//             console.log(err);
+//           }
+//       //encrypted JWT is null
+//     } else {
+//           console.log("token does not exist");
+//     }
+// });
 
 module.exports = router;

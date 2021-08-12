@@ -93,7 +93,7 @@ var globalPool = new SearchPool();
 //create a new socket connection
 io.on('connection', function(socket) {
 	console.log("Socket connected, id:", socket.id);
-	console.log("All sockets:", Object.keys(io.sockets.connected) );
+	//console.log("All sockets:", Object.keys(io.sockets.connected) );
 
 	//receives the peer ID from the front-end
 	socket.on('pID', function(data){
@@ -107,7 +107,7 @@ io.on('connection', function(socket) {
 	//when the socket is disconnected
 	socket.on('disconnect',function(){
 		console.log('Socket ID:',socket.id,'DISCONNECTED');
-		console.log("All sockets:", Object.keys(io.sockets.connected) );
+		// console.log("All sockets:", Object.keys(io.sockets.connected) );
 		//if there exists a socket connection
 		if(socket.pID){
 			//removes peer from the search pool
@@ -126,8 +126,11 @@ io.on('connection', function(socket) {
 });
 
 // establish connection with database
-mongoose.connect(process.env.DB_CONNECT).then(()=>{
-    console.log('Database is connected');
+mongoose.connect(process.env.DB_CONNECT,{
+		useNewUrlParser:true,
+		useUnifiedTopology:true
+	}).then(()=>{
+    	console.log('Database is connected');
     })
     .catch(err =>{
         console.log(err.message);
