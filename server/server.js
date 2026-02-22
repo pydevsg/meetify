@@ -126,10 +126,7 @@ io.on('connection', function(socket) {
 });
 
 // establish connection with database
-mongoose.connect(process.env.DB_CONNECT,{
-		useNewUrlParser:true,
-		useUnifiedTopology:true
-	}).then(()=>{
+mongoose.connect(process.env.DB_CONNECT).then(()=>{
     	console.log('Database is connected');
     })
     .catch(err =>{
