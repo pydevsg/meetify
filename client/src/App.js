@@ -1,10 +1,8 @@
 import './App.css';
-import {Router, Route} from "react-router";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import React from 'react'
 
-
-import { createBrowserHistory } from 'history';
-import {Provider} from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import { createStore } from 'redux'
 
 import allReducers from './reducers'
@@ -14,26 +12,41 @@ import Chat from './containers/Chat'
 
 const store = createStore(allReducers);
 
-const history = createBrowserHistory();
+function PrivateRoute({ component: Component, ...rest }) {
+  const socket = useSelector(state => state.socket);
+  const username = useSelector(state => state.username);
 
-/*-----AUTHENTICATE USER ROUTES-------*/
-function authenticateUser(nextState, replace){
-    //get redux store
-    var state = store.getState();
-    //if there is not socket connection or username is null,
-    //prevent the user from accessing video chat page
-    if(!state.socket || !state.username)
-        replace("/");
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        socket && username ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/" />
+        )
+      }
+    />
+  );
 }
+
+function AppRoutes() {
+  return (
+    <Router>
+      <Switch>
+        <Route exact path='/' component={Home} />
+        <PrivateRoute path='/chat' component={Chat} />
+      </Switch>
+    </Router>
+  );
+}
+
 function App() {
   return (
     <div className="App">
       <Provider store={store}>
-    <Router history = {history}>
-      <Route path='/' component= { Home }></Route>
-      <Route path='/chat' onEnter={ authenticateUser } component={ Chat } />
-    </Router>
-  </Provider>
+        <AppRoutes />
+      </Provider>
     </div>
   );
 }

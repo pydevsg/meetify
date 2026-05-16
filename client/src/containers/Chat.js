@@ -67,18 +67,18 @@ class Chat extends Component {
 			ctx.drawImage(vid,0,0,vid.width,vid.height);
 		}
 
-		//get webcam permissions
-		navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-		//connect to the webcam and create a video stream
-		navigator.getUserMedia({video: true, audio: true}, stream => {
-			//save stream in constructor
-			this.localStream = stream;
-			//place the stream in the video src
-			this.refs.localStream.src = window.URL.createObjectURL(this.localStream);
-		},function(err){
-			//throw error if video stream not found
-			console.log("Error",err)
-		});
+		//get webcam permissions using modern API
+		navigator.mediaDevices.getUserMedia({video: true, audio: true})
+			.then(stream => {
+				//save stream in constructor
+				this.localStream = stream;
+				//place the stream in the video element using srcObject
+				this.refs.localStream.srcObject = this.localStream;
+			})
+			.catch(err => {
+				//throw error if video stream not found
+				console.log("Error", err);
+			});
 
 		//if the local video is played, draw it to a canvas in a steady stream,
 		//this happens behind the scenes
@@ -100,31 +100,18 @@ class Chat extends Component {
 			}
 		});
 
-		//initalize a new peer, 
+		//initalize a new peer,
 		//configure all ICE servers for permission to connect two peers
 		this.peer = new Peer({
-			key:'p73vkga2525fusor',
-			config:{'iceServers': [
-				{url:'stun:stun01.sipphone.com'},
-				{url:'stun:stun.ekiga.net'},
-				{url:'stun:stun.fwdnet.net'},
-				{url:'stun:stun.ideasip.com'},
-				{url:'stun:stun.iptel.org'},
-				{url:'stun:stun.rixtelecom.se'},
-				{url:'stun:stun.schlund.de'},
-				{url:'stun:stun.l.google.com:19302'},
-				{url:'stun:stun1.l.google.com:19302'},
-				{url:'stun:stun2.l.google.com:19302'},
-				{url:'stun:stun3.l.google.com:19302'},
-				{url:'stun:stun4.l.google.com:19302'},
-				{url:'stun:stunserver.org'},
-				{url:'stun:stun.softjoys.com'},
-				{url:'stun:stun.voiparound.com'},
-				{url:'stun:stun.voipbuster.com'},
-				{url:'stun:stun.voipstunt.com'},
-				{url:'stun:stun.voxgratia.org'},
-				{url:'stun:stun.xten.com'},
-			]}
+			config: {
+				iceServers: [
+					{ urls: 'stun:stun.l.google.com:19302' },
+					{ urls: 'stun:stun1.l.google.com:19302' },
+					{ urls: 'stun:stun2.l.google.com:19302' },
+					{ urls: 'stun:stun3.l.google.com:19302' },
+					{ urls: 'stun:stun4.l.google.com:19302' },
+				]
+			}
 		});
 
 		//connects peer to a remote peer
@@ -135,7 +122,7 @@ class Chat extends Component {
 			//clear peer connection message when the peer is making a new connection
 			this.props.clearPeerMessage();
 			//peer is attempting to send local video stream to a remote peer
-			var call = this.peer.call(conn.peer,this.localStream);
+			this.peer.call(conn.peer,this.localStream);
 		});
 
 		
@@ -147,9 +134,9 @@ class Chat extends Component {
 			call.on('stream', remoteStream => {
 				console.log("Got Stream from peer! ");
 				//remote video stream is saved in the constructor
-				this.remoteStream=remoteStream;
-				//show remote stream in canvas element.
-				this.refs.remoteStream.src = window.URL.createObjectURL(self.remoteStream);
+				this.remoteStream = remoteStream;
+				//show remote stream in video element using srcObject
+				this.refs.remoteStream.srcObject = self.remoteStream;
 			});
 		});
 
@@ -179,6 +166,9 @@ class Chat extends Component {
 						case 'peerMessage':
 							//store the connection info in redux
 							this.props.getPeerMessage(data);
+							break;
+						default:
+							break;
 					}
 				});
 

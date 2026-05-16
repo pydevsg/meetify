@@ -1,12 +1,27 @@
 const express = require('express')  // middleware
-const mongoose = require('mongoose'); //odm 
+const mongoose = require('mongoose'); //odm
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
-const dotenv = require('dotenv'); 
+const dotenv = require('dotenv');
 const socketIO = require('socket.io');
+const _ = require('lodash');
 
 dotenv.config(); // configuring the .env file variables
+
+// Middleware
+app.use(express.json());
+
+// CORS headers
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, auth-token');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
+    }
+    next();
+});
 
 const port = process.env.PORT || 5000; //initialising port
 
@@ -19,8 +34,13 @@ const User = require('./models/User'); // connection with database model
 //Route Middlewares
 app.use('/api/user',authRoute); 
 
-//initialize socket IO
-const io = socketIO(server);
+//initialize socket IO with CORS
+const io = socketIO(server, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"]
+    }
+});
 
 
 // SearchPool - To store all the peers until an established connection is made

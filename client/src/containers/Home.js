@@ -26,12 +26,12 @@ class Home extends Component {
         };
     }
 
-	componentWillMount(){
+	componentDidMount(){
         //checks redux to see if a socket is stored
         if(!this.props.socket){
             console.log("No Socket connection...attempting to connect socket");
             //creates a new socket and stores it in redux
-			this.props.connectSocket(io());
+			this.props.connectSocket(io('http://localhost:5001'));
 		}
     }
 
@@ -100,7 +100,7 @@ class Home extends Component {
     /*-------------HANDLE USER REGISTRATION------------*/
     handleRegister(){
         //pass user credentials for registration
-        fetch('https://fcb401ac0711.ngrok.io/api/user/register', {
+        fetch('http://localhost:5001/api/user/register', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -108,7 +108,7 @@ class Home extends Component {
             },
             body: JSON.stringify({
                 username: this.state.username_register,
-                usermail: this.state.usermail_register,
+                email: this.state.usermail_register,
                 password: this.state.password_register
             })
         })
@@ -138,14 +138,14 @@ class Home extends Component {
     /*--------HANDLE USER LOGIN---------*/
     handleLogin(){
         //pass user credentials for login
-        fetch('https://fcb401ac0711.ngrok.io/api/user/login', {
+        fetch('http://localhost:5001/api/user/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                usermail: this.state.email_login,
+                email: this.state.email_login,
                 password: this.state.password_login
             })
         })
@@ -166,10 +166,10 @@ class Home extends Component {
             }
             //login is successful
             else {
-                //redux will store the usermail
-                this.props.login(responseJson.usermail);
-                //store the encrypted password and usermail in local storage, this is done through redux
-                this.props.storeLocally(responseJson.token, responseJson.usermail);
+                //redux will store the email
+                this.props.login(this.state.email_login);
+                //store the token and email in local storage, this is done through redux
+                this.props.storeLocally(responseJson, this.state.email_login);
                 //redirect the user to video chat page after login
                 history.push('/chat');
             }
@@ -193,7 +193,7 @@ class Home extends Component {
             <div>
                 <div className={this.state.register_status}>{this.state.success_register}</div>
                 {/*REGISTER FORM*/}
-                {this.state.registerForm && <Register errUser={this.state.err_register} switch={this.onClick.bind(this)} submit={this.handleRegister.bind(this)} password={this.handlePasswordChangeRegister.bind(this)} username={this.handleUsernameChangeRegister.bind(this)} usermail={this.handleUsernameChangeRegister.bind(this)}/>}
+                {this.state.registerForm && <Register errUser={this.state.err_register} switch={this.onClick.bind(this)} submit={this.handleRegister.bind(this)} password={this.handlePasswordChangeRegister.bind(this)} username={this.handleUsernameChangeRegister.bind(this)} usermail={this.handleUsermailChangeRegister.bind(this)}/>}
 				{/*LOGIN FORM*/}
                 {!this.state.registerForm && <Login errPass={this.state.err_password} errUser={this.state.err_usermail} switch={this.onClick.bind(this)} submit={this.handleLogin.bind(this)} password={this.handlePasswordChangeLogin.bind(this)} usermail={this.handleUsermailChangeLogin.bind(this)}/>}
 			</div>
